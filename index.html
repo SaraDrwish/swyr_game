@@ -13,7 +13,13 @@
             box-sizing: border-box;
         }
         body {
-            background: #FEE69520;
+            /* https://ibb.co/zTVY2P2n */
+            /* background-image: url('./img/s4.png'); */
+            background: linear-gradient(135deg, #FFB2DE 0%, #FFE994 100%);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 10%;
+            /* background: #FEE69520; */
             font-family: 'Tajawal', 'Segoe UI', system-ui, sans-serif;
             padding: 1rem;
             min-height: 100vh;
@@ -28,10 +34,10 @@
             overflow: hidden;
         }
         .header {
-            background: linear-gradient(135deg, #5C4545 0%, #FFB2DA 100%);
+            background: linear-gradient(135deg, #FFE994 0%, #FFB2DA 100%);
             padding: 1.5rem 1rem;
             text-align: center;
-            color: #FEE695;
+            color: #5C4545;
         }
         .header h1 {
             font-size: 2.4rem;
@@ -310,8 +316,8 @@
         <div id="genderSection" class="gender-card">
             <div class="question-text">أولاً: من أنتِ/أنت؟</div>
             <div class="gender-buttons">
-                <div class="gender-btn" data-gender="female">👩🏻 بنات</div>
-                <div class="gender-btn" data-gender="male">👨🏻 أولاد</div>
+                <div class="gender-btn" data-gender="female"> بنت</div>
+                <div class="gender-btn" data-gender="male"> ولد</div>
             </div>
         </div>
         <div id="questionsContainer"></div>
