@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>اختبار سوير للعطور | اكتشف توقيعك العطري</title>
-    <link rel="icon" type="image/jpg" sizes="32x32" href="./img/s4.png">
+    <title>اختبار سوير للعطور - اكتشف توقيعك العطري</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%235C4545'/%3E%3Ctext x='50' y='70' font-size='50' text-anchor='middle' fill='%23FEE695' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
     <style>
         * {
@@ -252,24 +250,53 @@
             color: #FFB2DA;
             padding: 1rem;
             border-top: 1px solid #FEE695;
+            background: white;
         }
-        .single-wa-btn {
+        .social-footer {
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #FEE695;
+            color: #5C4545;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: 0.2s;
+        }
+        .social-icon:hover {
+            background: #FFB2DA;
+            transform: translateY(-3px);
+        }
+        .facebook-share-btn {
             width: 100%;
-            background: #25D366;
+            background: #1877F2;
             color: white;
             margin-top: 10px;
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        .single-wa-btn:hover {
-            background: #128C7E;
-            color: white;
+        .facebook-share-btn:hover {
+            background: #145dbf;
+            transform: scale(0.98);
         }
         @media (max-width: 550px) {
             .content { padding: 1.2rem; }
             .perfume-item { flex-direction: column; align-items: flex-start; }
             .perfume-link { white-space: normal; text-align: center; width: 100%; }
             .perfume-image { width: 50px; height: 50px; }
+            .social-icon { width: 32px; height: 32px; font-size: 1rem; }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="container">
@@ -282,8 +309,8 @@
         <div id="genderSection" class="gender-card">
             <div class="question-text">أولاً: من أنتِ/أنت؟</div>
             <div class="gender-buttons">
-                <div class="gender-btn" data-gender="female"> بنت</div>
-                <div class="gender-btn" data-gender="male"> ولد</div>
+                <div class="gender-btn" data-gender="female">👩🏻 بنات</div>
+                <div class="gender-btn" data-gender="male">👨🏻 أولاد</div>
             </div>
         </div>
         <div id="questionsContainer"></div>
@@ -293,110 +320,105 @@
         </div>
         <div id="resultContainer" class="result-card hidden"></div>
     </div>
-    <footer>سوير | عطور مستوحاة - اكتشف توقيعك العطري</footer>
+    <footer>
+        <div class="social-footer">
+            <a href="https://www.instagram.com/swyrbeauty/" target="_blank" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@swyrperfumes" target="_blank" class="social-icon" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61563925810810" target="_blank" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        <div style="margin-top: 0.8rem;">سوير | عطور مستوحاة - اكتشف توقيعك العطري</div>
+    </footer>
 </div>
 
 <script>
-    // قاعدة بيانات العطور (كما هي)
-    const PERFUMES_CATALOG = [
-        { name: "212 سكسي", url: "https://swyr.almatjar.store/ar/p/212-sksy-50ml-7", family: "Amber", gender: "female", 
-          notes: "مندلين، برغموت، فلفل وردي، جاردينيا، مسك أبيض، فانيليا، خشب الصندل، عنبر",
-          description: "عطر دافئ وحسي يبدأ بنفحات من البرغموت والفلفل الوردي، ثم ينتقل إلى قلب من الورد والفانيليا والمسك الأبيض. يُناسب المساء والأجواء الباردة، مثالي للسهرات أو اللقاءات الرومانسية." },
-        { name: "جود جيرل", url: "https://swyr.almatjar.store/ar/p/god-gyrl-50ml-32", family: "Amber", gender: "female",
-          notes: "لوز، قهوة، ياسمين، تيوبيروز، فانيليا، تونكا، كاكاو، برالين، مسك، عنبر",
-          description: "عطر جريء وأنثوي يجمع بين القهوة المحمصة والياسمين الأبيض، مع قاعدة من الفانيليا والبرالين. يرمز إلى المرأة القوية التي تملك جانبًا مرِحًا وساحرًا." },
-        { name: "لافي بيل", url: "https://swyr.almatjar.store/ar/p/lafy-byl-50ml-13", family: "Sweet", gender: "female",
-          notes: "كشمش أسود، كمثرى، سوسن، ياسمين، برالين، فانيليا، باتشولي، تونكا",
-          description: "عطر ساحر ومبهج يجمع بين الفواكه الحمراء والزهور البيضاء مع لمسة من الفانيليا والبرالين. يعبر عن السعادة والتفاؤل والأنوثة الناعمة." },
-        { name: "كوكوشانيل مدمزيل", url: "https://swyr.almatjar.store/ar/p/kokoshanyl-mdmzyl-50ml-15", family: "Floral", gender: "female",
-          notes: "برغموت، برتقال، ياسمين، ورد، باتشولي، تونكا، فانيليا، مسك أبيض",
-          description: "عطر زهري شرقي أنيق، يجمع بين الحمضيات المنعشة والورد الياسميني مع لمسة ترابية من الباتشولي. يعبر عن الأنثى العصرية المستقلة." },
-        { name: "مس ديور بلومينج", url: "https://swyr.almatjar.store/ar/p/ms-dyor-blomyng-50ml-14", family: "Floral", gender: "female",
-          notes: "برغموت كالابري، ورد دمشقي، بيوني، مسك أبيض",
-          description: "عطر زهري رقيق وناعم، مستوحى من باقة ورد متفتحة. يعطي إحساسًا بالانتعاش والنقاء، مناسب للنهار والأجواء الربيعية." },
-        { name: "عطر سي باشن", url: "https://swyr.almatjar.store/ar/p/aatr-sy-bashn-50ml-4", family: "Fruity", gender: "female",
-          notes: "كشمش أسود، كمثرى، فلفل وردي، ورد، ياسمين، فانيليا، أرز، باتشولي",
-          description: "عطر شغوف وقوي يعكس العاطفة والثقة. يفتتح بفواكه حمراء وكمثرى، ثم قلب زهري، وقاعدة خشبية دافئة." },
-        { name: "ايدول لانكوم", url: "https://swyr.almatjar.store/ar/p/aydol-lankom-50ml-8", family: "Floral", gender: "female",
-          notes: "حمضيات، ورد، ياسمين، مسك أبيض، فانيليا، شيبر أبيض",
-          description: "عطر زهري مشرق ومتفائل، يمثل فرحة الحياة. الورد هو نجم التركيبة مع لمسة من المسك والفانيليا." },
-        { name: "انايس انايس", url: "https://swyr.almatjar.store/ar/p/anays-anays-50ml-34", family: "Floral", gender: "female",
-          notes: "ياسمين، ورد، زنبق أبيض، سوسن، يلانج يلانج، مسك، عنبر، خشب الصندل",
-          description: "عطر كلاسيكي ناعم، يعبق بأريج الزهور البيضاء والمسك. يرمز إلى البراءة والرقة والحب الأول." },
-        { name: "ايفوريا", url: "https://swyr.almatjar.store/ar/p/ayforya-50ml-12", family: "Fruity", gender: "female",
-          notes: "رمان، كاكي، أوركيد أسود، لوتس، أخشاب ماهوجني، بنفسج، عنبر",
-          description: "عطر جريء ومثير يجمع بين الفواكه الاستوائية والزهور الغامضة والأخشاب الداكنة. يعبر عن الشغف والقوة." },
-        { name: "عود شيخة", url: "https://swyr.almatjar.store/ar/p/%D8%B9%D9%88%D8%AF-%D8%B4%D9%8A%D8%AE%D8%A9-50mlaud-shaikhah-mist-100ml-39", family: "Woody", gender: "male",
-          notes: "عود، ورد، زعفران، مسك، عنبر، حيواني معدني",
-          description: "عطر شرقي فخم يعتمد على العود النادر مع لمسات من الورد والزعفران. يمنح حضورًا قويًا وأناقة لا تُقاوم." },
-        { name: "بي ام دبليو", url: "https://swyr.almatjar.store/ar/p/bmw-50ml-35", family: "Fresh", gender: "male",
-          notes: "برغموت، يوسفي، فلفل وردي، لافندر، أمبروكسان، عنبر",
-          description: "عطر منعش ورياضي، مستوحى من قيادة السيارات الفاخرة. مزيج من الحمضيات واللافندر مع لمسة عنبرية." },
-        { name: "بلاك لاكوست", url: "https://swyr.almatjar.store/ar/p/black-Eau-de-Lacoste-Noir-Lacoste-Fragrances-50ml-25", family: "Woody", gender: "male",
-          notes: "بطيخ، ريحان، لافندر، شوكولاتة داكنة، كشمير وود، كومارين، باتشولي",
-          description: "عطر جذاب وعصري يجمع بين الفواكه والباتشولي والشوكولاتة الداكنة. مثالي للمناسبات الليلية." },
-        { name: "فرزاتشي إيروس", url: "https://swyr.almatjar.store/ar/p/Eros-Eau-de-Parfum-Versace-50ml-24", family: "Amber", gender: "male",
-          notes: "ليمون، يوسفي، نعناع، تفاح، جيرانيوم، كلاري سيج، أرز، فانيليا، باتشولي، خشب الصندل",
-          description: "عطر أسطوري مستوحى من إله الحب اليوناني. مزيج منعش وحلو مع لمسة خشبية، يمنح ثقة وجاذبية." },
-        { name: "سوفاج", url: "https://swyr.almatjar.store/ar/p/sauvage-100ml-inspired-30", family: "Fresh", gender: "male",
-          notes: "برغموت كالابري، فلفل سيشوان، لافندر، عنبر، باتشولي، فانيليا",
-          description: "عطر بري وطاغي مستوحى من الطبيعة الجامحة. البرغموت والفلفل يخلقان افتتاحية صارخة، مع قاعدة عنبرية دافئة." },
-        { name: "كلوب دي نوي", url: "https://swyr.almatjar.store/ar/p/club-de-nuit-intense-50ml-26", family: "Woody", gender: "male",
-          notes: "أناناس، برغموت، ليمون، كشمش أسود، تفاح، ورد، ياسمين، مسك، أمبرجريس، باتشولي، فانيليا",
-          description: "عطر ليلي قوي يجمع بين الفواكه الحامضة والزهور والأخشاب. يعطي إحساسًا بالفخامة والثقة." },
-        { name: "قصة امبريال", url: "https://swyr.almatjar.store/ar/p/qissa-imperial-50ml-41", family: "Woody", gender: "unisex",
-          notes: "برغموت إيطالي، دافانا، فلفل وردي، عنبر أبيض، روزماري، عود، جلد، مسك، فيتيڤر",
-          description: "عطر فخم وجريء يجمع بين الحمضيات والعود والجلد. يناسب الشخصيات القيادية التي تحب التميز." },
-        { name: "ليبر", url: "https://swyr.almatjar.store/ar/p/libert-50ml-42", family: "Fresh", gender: "unisex",
-          notes: "لافندر، يوسفي، كشمش أسود، زهر البرتقال، ياسمين، فانيليا مدغشقر، مسك",
-          description: "عطر منعش ومشرق بروح حرة، يجمع بين الخزامى والفواكه والفانيليا. يناسب كل الأوقات." }
+    // ---------- الصور الافتراضية ورابط المتجر العام ----------
+    const DEFAULT_FEMALE_IMAGE = "https://i.ibb.co/35PNrprP/default-female-perfume.png";
+    const DEFAULT_MALE_IMAGE = "https://i.ibb.co/LhsmBXb2/default-male-perfume.png";
+    const STORE_BASE_URL = "https://swyr.almatjar.store/ar";
+
+    // ---------- قاعدة بيانات العطور النسائية (مصنفة بدقة) ----------
+    const femalePerfumes = [
+        // عائلة الخشبية والفخمة (Woody) - للاختيار "قوي وجذاب"
+        { name: "عود شيخة", family: "Woody", notes: "عود، ورد، زعفران، مسك، عنبر", description: "عطر شرقي فخم وحضور قوي. يناسب السهرات والمناسبات الرسمية.", image: "https://cdn.almatjar.org/swyr/media/90/c/aaod-shykh-thumb.jpg", url: "https://swyr.almatjar.store/ar/p/%D8%B9%D9%88%D8%AF-%D8%B4%D9%8A%D8%AE%D8%A9-50mlaud-shaikhah-mist-100ml-39", available: true },
+        { name: "ليبر (Libre) YSL", family: "Woody", notes: "لافندر، يوسفي، فانيليا، مسك", description: "عطر جريء وفاخر للمرأة القوية. مناسب للعمل والمناسبات النهارية.", image: "https://cdn.almatjar.org/swyr/media/17/libre-50ml.png", url: "https://swyr.almatjar.store/ar/p/libert-50ml-42", available: true },
+        { name: "Black Opium YSL", family: "Woody", notes: "قهوة، فانيليا بيضاء، زهر البرتقال", description: "عطر جريء وإغراء ليلي. مزيج من القهوة والفانيليا.", image: DEFAULT_FEMALE_IMAGE, url: "", available: false },
+        { name: "Tom Ford Oud Wood", family: "Woody", notes: "عود، خشب الأرز، فانيليا، عنبر", description: "فخامة العود الناعم. عطر جذاب للمناسبات الهامة.", image: DEFAULT_FEMALE_IMAGE, url: "", available: false },
+        { name: "Coco Mademoiselle Chanel", family: "Woody", notes: "برغموت، ياسمين، ورد، باتشولي", description: "زهري شرقي أنيق بعمق خشبي. من الكلاسيكيات العصرية.", image: "https://cdn.almatjar.org/swyr/media/16/kokoshanyl-mdmzyl-50ml.png", url: "https://swyr.almatjar.store/ar/p/kokoshanyl-mdmzyl-50ml-15", available: true },
+        { name: "Good Girl Carolina Herrera", family: "Woody", notes: "لوز، قهوة، ياسمين، فانيليا، تونكا", description: "عطر جريء بقاعدة خشبية حلوة. مثالي للسهرات.", image: "https://cdn.almatjar.org/swyr/media/35/god-gyrl-50ml.png", url: "https://swyr.almatjar.store/ar/p/god-gyrl-50ml-32", available: true },
+        // عائلة الحلوة والدافئة (Sweet) - للاختيار "دافئ وحلو"
+        { name: "La Vie Est Belle", family: "Sweet", notes: "كشمش أسود، برالين، فانيليا، باتشولي", description: "عطر السعادة والفرح. ناعم وحلو بلمسة باتشولي.", image: "https://cdn.almatjar.org/swyr/media/12/lafy-byl-50ml.png", url: "https://swyr.almatjar.store/ar/p/lafy-byl-50ml-13", available: true },
+        { name: "212 Sexy", family: "Sweet", notes: "برغموت، فلفل وردي، جاردينيا، فانيليا، عنبر", description: "عطر دافئ وحسي للمساء. مزيج من الزهور والفانيليا.", image: "https://cdn.almatjar.org/swyr/media/53/212-sksy-50ml.png", url: "https://swyr.almatjar.store/ar/p/212-sksy-50ml-7", available: true },
+        { name: "Khamrah Lattafa", family: "Sweet", notes: "قرفة، جوزة الطيب، تمر، برالين، فانيليا", description: "عطر جورماند شرقي غني بالتوابل والحلاوة.", image: DEFAULT_FEMALE_IMAGE, url: "", available: false },
+        { name: "Flowerbomb Viktor&Rolf", family: "Sweet", notes: "سكر، باتشولي، ياسمين، ورد", description: "عطر زهري حلو ومتفجر.", image: DEFAULT_FEMALE_IMAGE, url: "", available: false },
+        { name: "Kayali Vanilla 28", family: "Sweet", notes: "فانيليا بنية، مسك، سكر بني", description: "فانيليا دافئة ولذيذة. عطر جورماند بامتياز.", image: DEFAULT_FEMALE_IMAGE, url: "", available: false },
+        // عائلة الزهرية والناعمة (Floral/Fresh) - للاختيار "منعش وهادئ"
+        { name: "Miss Dior Blooming Bouquet", family: "Floral", notes: "برغموت، ورد دمشقي، بيوني، مسك أبيض", description: "باقة ورد متفتحة، راقية وناعمة. عطر نهاري مثالي.", image: "https://cdn.almatjar.org/swyr/media/13/ms-dyor-blomyng-50ml.png", url: "https://swyr.almatjar.store/ar/p/ms-dyor-blomyng-50ml-14", available: true },
+        { name: "Idôle Lancôme", family: "Floral", notes: "ورد، ياسمين، مسك، فانيليا", description: "عطر زهري مشرق ومتفائل. يعبر عن الأنوثة العصرية.", image: "https://cdn.almatjar.org/swyr/media/54/aydol-lankom-50ml.png", url: "https://swyr.almatjar.store/ar/p/aydol-lankom-50ml-8", available: true },
+        { name: "Anais Anais", family: "Floral", notes: "ياسمين، ورد، زنبق، مسك", description: "كلاسيكي ناعم، رائحة الزهور البيضاء النقية.", image: "https://cdn.almatjar.org/swyr/media/37/anays-anays-50ml.png", url: "https://swyr.almatjar.store/ar/p/anays-anays-50ml-34", available: true },
+        { name: "Chanel Chance Eau Tendre", family: "Fresh", notes: "تفاح، ياسمين، مسك", description: "أناقة منعشة ورقيقة. عطر نهاري خفيف.", image: DEFAULT_FEMALE_IMAGE, url: "", available: false },
+        { name: "Acqua di Gioia", family: "Fresh", notes: "نعناع بحري، ليمون، فاوانيا", description: "انتعاش وطاقة إيجابية. يناسب الصباح والربيع.", image: DEFAULT_FEMALE_IMAGE, url: "", available: false },
+        // عائلة الفاكهية والمرحة (Fruity) - للاختيار "مرحة وجريئة"
+        { name: "Si Passione Armani", family: "Fruity", notes: "كشمش أسود، كمثرى، ورد، فانيليا", description: "عطر شغوف وقوي بلمسة فاكهية.", image: "https://cdn.almatjar.org/swyr/media/4/aatr-sy-bashn-50ml.png", url: "https://swyr.almatjar.store/ar/p/aatr-sy-bashn-50ml-4", available: true },
+        { name: "Euphoria Calvin Klein", family: "Fruity", notes: "رمان، كاكي، أوركيد أسود، أخشاب", description: "عطر جريء ومثير برائحة الفواكه الاستوائية.", image: "https://cdn.almatjar.org/swyr/media/15/ayforya-50ml.png", url: "https://swyr.almatjar.store/ar/p/ayforya-50ml-12", available: true },
+        { name: "Burberry Her", family: "Fruity", notes: "توت، فراولة، مسك، عنبر", description: "نفحات فواكه حمراء ساحرة.", image: DEFAULT_FEMALE_IMAGE, url: "", available: false },
+        { name: "Valentino Donna Born in Roma", family: "Fruity", notes: "فانيليا سوداء، ياسمين، توت", description: "جريء وأنيق، مزيج الفواكه والفانيليا.", image: DEFAULT_FEMALE_IMAGE, url: "", available: false }
     ];
 
-    // الأسئلة (6 أسئلة)
+    // ---------- قاعدة بيانات العطور الرجالية (مصنفة بدقة) ----------
+    const malePerfumes = [
+        // عائلة الخشبية والقوية (Woody) - للاختيار "قوي وجذاب"
+        { name: "عود شيخة", family: "Woody", notes: "عود، ورد، زعفران، مسك، عنبر", description: "عطر شرقي فخم وحضور قوي. يناسب الرجل القائد.", image: "https://cdn.almatjar.org/swyr/media/90/c/aaod-shykh-thumb.jpg", url: "https://swyr.almatjar.store/ar/p/%D8%B9%D9%88%D8%AF-%D8%B4%D9%8A%D8%AE%D8%A9-50mlaud-shaikhah-mist-100ml-39", available: true },
+        { name: "ديور سوفاج", family: "Woody", notes: "برغموت، فلفل، أمبروكسان، باتشولي", description: "عطر جريء وصارخ، رمز الرجل العصري الواثق.", image: "https://cdn.almatjar.org/swyr/media/29/sauvage-50ml.png", url: "https://swyr.almatjar.store/ar/p/sauvage-100ml-inspired-30", available: true },
+        { name: "كلوب دي نوي", family: "Woody", notes: "أناناس، بتشولي، فانيليا، مسك", description: "عطر ليلي قوي وفخم. من أفضل البدائل لـ Aventus.", image: "https://cdn.almatjar.org/swyr/media/30/club-de-nuit-50ml.png", url: "https://swyr.almatjar.store/ar/p/club-de-nuit-intense-50ml-26", available: true },
+        { name: "Bleu de Chanel", family: "Woody", notes: "جريب فروت، زنجبيل، خشب الأرز، نعناع", description: "كلاسيكي بلمسة عصرية. عطر متعدد الاستخدامات.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        { name: "Tom Ford Oud Wood", family: "Woody", notes: "عود، خشب الأرز، فانيليا، عنبر", description: "فخامة العود الناعم. عطر جذاب للمناسبات الهامة.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        { name: "Creed Aventus", family: "Woody", notes: "أناناس، بتشولي، خشب البتولا، مسك", description: "أسطورة عطرية للقادة. حضور أسطوري.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        { name: "Terre d'Hermès", family: "Woody", notes: "برغموت، صخور، خشب الأرز", description: "عطر ترابي وفخم. للرجل الأنيق.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        // عائلة الحلوة والدافئة (Sweet) - للاختيار "دافئ وحلو"
+        { name: "فرزاتشي إيروس", family: "Sweet", notes: "نعناع، تفاح، فانيليا، خشب الأرز", description: "عطر أسطوري يجمع بين الانتعاش والحلاوة.", image: "https://cdn.almatjar.org/swyr/media/27/versace-eros-50ml.png", url: "https://swyr.almatjar.store/ar/p/Eros-Eau-de-Parfum-Versace-50ml-24", available: true },
+        { name: "صقر الجزيرة", family: "Sweet", notes: "عود، عنبر، مسك، أخشاب", description: "عطر شرقي قوي وفخم. يناسب الرجل الذي يبحث عن التميز.", image: "https://cdn.almatjar.org/swyr/media/97/c/skr-algzyr-thumb.jpg", url: "https://swyr.almatjar.store/ar/p/sqr-algzyr-50ml-38", available: true },
+        { name: "Paco Rabanne 1 Million", family: "Sweet", notes: "قرفة، جلد، ورد، برتقال دموي", description: "الذهب السائل. عطر جريء وحلو للسهرات.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        { name: "Jean Paul Gaultier Le Male", family: "Sweet", notes: "فانيليا، نعناع، لافندر، كمون", description: "أسطورة الفانيليا. عطر كلاسيكي جذاب.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        { name: "Khamrah Qahwa", family: "Sweet", notes: "قهوة، كاكاو، فانيليا، توابل", description: "عطر قهوة غني ودافئ مثالي للأجواء الباردة.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        { name: "Armani Code", family: "Sweet", notes: "زنجبيل، ليمون، تونكا", description: "جاذبية ليلية. عطر حلو وجذاب.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        // عائلة المنعشة والرياضية (Fresh) - للاختيار "منعش وهادئ"
+        { name: "أكوا دي جيو", family: "Fresh", notes: "ليمون، نوتة بحرية، ياسمين، خشب الأرز", description: "انتعاش أيقوني. عطر كلاسيكي للرجل النشيط.", image: "https://cdn.almatjar.org/swyr/media/28/acqua-di-gio-50ml.png", url: "https://swyr.almatjar.store/ar/p/acqua-di-gio-50ml-29", available: true },
+        { name: "بي إم دبليو", family: "Fresh", notes: "برغموت، يوسفي، فلفل وردي، عنبر", description: "عطر منعش ورياضي، مستوحى من الفخامة والسرعة.", image: "https://cdn.almatjar.org/swyr/media/14/bmw-50ml.png", url: "https://swyr.almatjar.store/ar/p/bmw-50ml-35", available: true },
+        { name: "بلاك لاكوست", family: "Fresh", notes: "بطيخ، لافندر، شوكولاتة، باتشولي", description: "عطر جذاب وعصري بمزيج فريد.", image: "https://cdn.almatjar.org/swyr/media/28/black-lacoste-50ml.png", url: "https://swyr.almatjar.store/ar/p/black-Eau-de-Lacoste-Noir-Lacoste-Fragrances-50ml-25", available: true },
+        { name: "Versace Pour Homme", family: "Fresh", notes: "ليمون، نعناع بحري، زهر البرتقال", description: "أيام الصيف المنعشة. عطر كلاسيكي نظيف.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        { name: "D&G Light Blue", family: "Fresh", notes: "جريب فروت، عرعر، روزماري", description: "حيوية البحر المتوسط. منعش وحمضي.", image: DEFAULT_MALE_IMAGE, url: "", available: false },
+        { name: "Davidoff Cool Water", family: "Fresh", notes: "أوزون، بحر، لافندر، ياسمين", description: "كلاسيكي الماء. عطر منعش خالد.", image: DEFAULT_MALE_IMAGE, url: "", available: false }
+    ];
+
+    // ---------- الأسئلة (4 أسئلة، كل سؤال 3 خيارات) ----------
     const QUESTIONS = [
-        { text: "🌿 أي من هذه الأجواء أقرب إلى قلبك؟", options: [
-            { text: "منعش وهادئ - مثل نسيم الصباح الباكر", points: { "Fresh": 3, "Citrus": 2 } },
-            { text: "دافئ وحنون - مثل احتضان دافئ في المساء", points: { "Amber": 3, "Sweet": 2 } },
-            { text: "قوي وجذاب - مثل حضور لا يُنسى", points: { "Woody": 3, "Leather": 2 } },
-            { text: "مرح وفاكهي - مثل نزهة مليئة بالضحك", points: { "Fruity": 3, "Floral": 1 } }
+        { text: "🌿 أي الأجواء تفضلينها؟", options: [
+            { text: "منعش وهادئ (صباحي، عمل، طبيعة)", family: "Fresh" },
+            { text: "دافئ وحلو (رومانسي، سهرة، شتاء)", family: "Sweet" },
+            { text: "قوي وجذاب (مناسبات، حضور، ثقة)", family: "Woody" }
         ] },
-        { text: "🌸 أي فئة من الروائح تلامس روحك أكثر؟", options: [
-            { text: "الأزهار البيضاء النقية (ياسمين، زنبق، نيرولي)", points: { "Floral": 4 } },
-            { text: "الفانيليا والعنبر الدافئين", points: { "Amber": 3, "Sweet": 2 } },
-            { text: "العود والمسك والتبغ العميقين", points: { "Woody": 3, "Oud": 2 } },
-            { text: "الفواكه الحمراء والحمضيات المنعشة", points: { "Fruity": 3, "Citrus": 2 } }
+        { text: "🌸 أي فئة من الروائح تجذبك؟", options: [
+            { text: "أزهار ومسك - ناعمة ورقيقة", family: "Floral" },
+            { text: "فانيليا وعنبر - دافئة وحلوة", family: "Sweet" },
+            { text: "عود وتبغ - فخمة وقوية", family: "Woody" }
         ] },
-        { text: "🎭 كيف تصف شخصيتك في كلمتين؟", options: [
-            { text: "هادئ/هادئة، أنيق/أنيقة", points: { "Floral": 2, "Fresh": 1 } },
-            { text: "مرح/مرحة، جريء/جريئة", points: { "Fruity": 2, "Sweet": 2 } },
-            { text: "غامض/غامضة، جذاب/جذابة", points: { "Amber": 2, "Woody": 2 } },
-            { text: "عملي/عملية، رياضي/رياضية", points: { "Fresh": 3, "Citrus": 2 } }
+        { text: "🎭 كيف تصفين شخصيتك؟", options: [
+            { text: "هادئة، كلاسيكية، أنيقة", family: "Floral" },
+            { text: "مرحة، جريئة، اجتماعية", family: "Fruity" },
+            { text: "غامضة، قوية، قيادية", family: "Woody" }
         ] },
-        { text: "⏰ في أي وقت تشعر بأنك أكثر تألقًا؟", options: [
-            { text: "النهار والصباح الباكر", points: { "Fresh": 3, "Citrus": 2 } },
-            { text: "المساء والمناسبات الخاصة", points: { "Amber": 3, "Sweet": 2 } },
-            { text: "العمل واللقاءات الرسمية", points: { "Woody": 2, "Floral": 1 } },
-            { text: "كل الأوقات دون تفرقة", points: { "Floral": 1, "Fresh": 1, "Amber": 1 } }
-        ] },
-        { text: "💎 ما الذي يحدد اختيارك لعطرك المثالي؟", options: [
-            { text: "الثبات طوال اليوم ورائحة قوية", points: { "Amber": 2, "Woody": 2 } },
-            { text: "الفوحان الجميل والانتشار", points: { "Sweet": 2, "Fruity": 2 } },
-            { text: "الرقة والنعومة والهدوء", points: { "Floral": 3, "Powdery": 2 } },
-            { text: "السعر المناسب مقابل الجودة", points: { "Fresh": 2, "Citrus": 2 } }
-        ] },
-        { text: "🎨 ما هو اللون الذي يعبر عن حالتك المزاجية اليوم؟", options: [
-            { text: "الأبيض والبيج - النقاء والرقة", points: { "Floral": 2, "Powdery": 2 } },
-            { text: "الذهبي والعنبر - الدفء والفخامة", points: { "Amber": 3, "Sweet": 2 } },
-            { text: "الأسود والبني - القوة والغموض", points: { "Woody": 3, "Leather": 2 } },
-            { text: "الزهري والبرتقالي - الحيوية والمرح", points: { "Fruity": 3, "Citrus": 2 } }
+        { text: "⏰ متى تريدين أن تتألقي؟", options: [
+            { text: "في النهار والصباح الباكر", family: "Fresh" },
+            { text: "في المساء والسهرات", family: "Sweet" },
+            { text: "في المناسبات الهامة والرسمية", family: "Woody" }
         ] }
     ];
 
     let currentGender = null;
-    let answersPoints = [];
+    let selectedFamilies = [];
     let currentQuestionIndex = 0;
-    let lastTopPrimary = null;
-    let lastTopSecondary = [];
+    let finalTopPrimary = null;
+    let finalTopSecondary = [];
 
     const genderSection = document.getElementById('genderSection');
     const questionsContainer = document.getElementById('questionsContainer');
@@ -405,7 +427,35 @@
     const nextBtn = document.getElementById('nextBtn');
     const resultContainer = document.getElementById('resultContainer');
 
-    // دالة للانتقال إلى السؤال التالي أو عرض النتيجة
+    function getDominantFamily() {
+        let count = { Fresh: 0, Sweet: 0, Woody: 0, Floral: 0, Fruity: 0 };
+        for (let fam of selectedFamilies) {
+            if (count[fam] !== undefined) count[fam]++;
+        }
+        let maxFam = Object.keys(count).reduce((a, b) => count[a] > count[b] ? a : b, "Floral");
+        return maxFam;
+    }
+
+    function getPerfumesByFamily(family) {
+        let catalog = (currentGender === 'female' ? femalePerfumes : malePerfumes);
+        let filtered = catalog.filter(p => p.family === family);
+        if (filtered.length === 0) {
+            if (family === "Fresh") filtered = catalog.filter(p => p.family === "Floral");
+            else if (family === "Woody") filtered = catalog.filter(p => p.family === "Sweet");
+            else if (family === "Sweet") filtered = catalog.filter(p => p.family === "Woody");
+            else if (family === "Floral") filtered = catalog.filter(p => p.family === "Fresh");
+            else if (family === "Fruity") filtered = catalog.filter(p => p.family === "Sweet");
+        }
+        return filtered;
+    }
+
+    function getValidUrl(perfume) {
+        if (perfume.url && perfume.url.trim() !== "") {
+            return perfume.url;
+        }
+        return STORE_BASE_URL;
+    }
+
     function goToNext() {
         if (currentQuestionIndex + 1 < QUESTIONS.length) {
             currentQuestionIndex++;
@@ -420,25 +470,22 @@
         if (!currentGender) return;
         const q = QUESTIONS[currentQuestionIndex];
         let html = `<div class="question-card"><div class="question-text">${currentQuestionIndex+1}. ${q.text}</div><div class="options">`;
-        const letters = ['أ', 'ب', 'ج', 'د'];
+        const letters = ['أ', 'ب', 'ج'];
         q.options.forEach((opt, idx) => {
-            const isSelected = answersPoints[currentQuestionIndex] === opt.points;
-            html += `<div class="option ${isSelected ? 'selected' : ''}" data-points='${JSON.stringify(opt.points)}'>
+            const isSelected = selectedFamilies[currentQuestionIndex] === opt.family;
+            html += `<div class="option ${isSelected ? 'selected' : ''}" data-family="${opt.family}">
                         <span class="option-letter">${letters[idx]}</span>
                         <span>${opt.text}</span>
                     </div>`;
         });
         html += `</div></div>`;
         questionsContainer.innerHTML = html;
-        
-        // إضافة مستمعي الأحداث للخيارات: عند النقر، نحفظ الاختيار ثم ننتقل تلقائيًا للسؤال التالي
         document.querySelectorAll('.option').forEach(el => {
             el.addEventListener('click', () => {
-                const pointsObj = JSON.parse(el.getAttribute('data-points'));
-                answersPoints[currentQuestionIndex] = pointsObj;
+                const family = el.getAttribute('data-family');
+                selectedFamilies[currentQuestionIndex] = family;
                 document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
                 el.classList.add('selected');
-                // الانتقال التلقائي بعد اختيار الإجابة
                 goToNext();
             });
         });
@@ -449,156 +496,121 @@
         else nextBtn.innerText = 'التالي ';
     }
 
-    function calculateTopPerfumes() {
-        const scores = { Floral:0, Amber:0, Woody:0, Fresh:0, Fruity:0, Citrus:0, Sweet:0, Leather:0, Green:0, Vanilla:0, Powdery:0, Musk:0, Oriental:0, Spicy:0, Oud:0 };
-        for (let ans of answersPoints) if (ans) for (let [fam, pts] of Object.entries(ans)) scores[fam] = (scores[fam]||0) + pts;
-        
-        let topFamily = Object.keys(scores).reduce((a,b) => scores[a] > scores[b] ? a : b, "Floral");
-        
-        let tasteName = "";
-        let tasteDescription = "";
-        let primaryFamily = "";
-        if (topFamily === "Floral" || topFamily === "White Floral") {
-            tasteName = "🌺 زهري ناعم ورقيق";
-            tasteDescription = "أنت شخصية تميل للرقة والأنوثة/الأناقة، وتحبين/تحب الأجواء الهادئة والطبيعة. العطور الزهرية تمنحك إحساسًا بالصفاء والجمال البسيط.";
-            primaryFamily = "Floral";
-        } else if (topFamily === "Amber" || topFamily === "Vanilla" || topFamily === "Sweet") {
-            tasteName = "🍯 دافئ وحلو وجذاب";
-            tasteDescription = "لديك/لديكِ شخصية دافئة وحنونة، تحبين/تحب الراحة والأجواء الرومانسية. العطور الدافئة والحلوة تعكس دفئك الداخلي وتجعلك محط الأنظار.";
-            primaryFamily = "Amber";
-        } else if (topFamily === "Woody" || topFamily === "Oud" || topFamily === "Leather") {
-            tasteName = "🌲 خشبي فخم وقوي";
-            tasteDescription = "شخصيتك قوية وغامضة، تحبين/تحب التميز والحضور اللافت. العطور الخشبية والعود تمنحك الثقة والهيبة.";
-            primaryFamily = "Woody";
-        } else if (topFamily === "Fresh" || topFamily === "Citrus" || topFamily === "Green") {
-            tasteName = "🌊 منعش رياضي وحيوي";
-            tasteDescription = "أنت شخصية نشيطة ورياضية، تحبين/تحب النشاط والانطلاق. العطور المنعشة تمنحك طاقة إيجابية وانتعاشًا طوال اليوم.";
-            primaryFamily = "Fresh";
-        } else if (topFamily === "Fruity" || topFamily === "Berries") {
-            tasteName = "🍓 فاكهي مرح ومشرق";
-            tasteDescription = "شخصيتك مرحة وجريئة، تحبين/تحب التجديد والأجواء المبهجة. العطور الفاكهية تعكس حيوتك وتضفي لمسة من البهجة.";
-            primaryFamily = "Fruity";
-        } else {
-            tasteName = "✨ توقيع سوير الخاص";
-            tasteDescription = "ذوقك فريد ومتنوع، تحبين/تحب المزج بين أكثر من فئة عطرية. أنت شخصية متجددة ومحبة للاستكشاف.";
-            primaryFamily = "Floral";
-        }
-        
-        let filtered = PERFUMES_CATALOG.filter(p => p.gender === currentGender || p.gender === "unisex");
-        let scored = filtered.map(p => {
-            let score = 0;
-            if (p.family === primaryFamily) score += 5;
-            if (p.family === "Floral" && primaryFamily === "Floral") score += 3;
-            if (p.family === "Amber" && primaryFamily === "Amber") score += 3;
-            if (p.family === "Woody" && primaryFamily === "Woody") score += 3;
-            if (p.family === "Fresh" && primaryFamily === "Fresh") score += 3;
-            if (p.family === "Fruity" && primaryFamily === "Fruity") score += 3;
-            if (scores[p.family]) score += scores[p.family];
-            if (scores[p.family] > 0) score += 1;
-            return { ...p, score };
-        });
-        scored.sort((a,b) => b.score - a.score);
-        const topPerfume = scored[0];
-        let sameFamily = scored.filter(p => p.family === topPerfume.family || (Math.abs(p.score - topPerfume.score) < 3));
-        let secondary = sameFamily.slice(1, 4);
-        if (secondary.length < 3) {
-            let others = scored.filter(p => !secondary.includes(p) && p.name !== topPerfume.name);
-            secondary = [...secondary, ...others.slice(0, 3 - secondary.length)];
-        }
-        return { tasteName, tasteDescription, topPrimary: topPerfume, topSecondary: secondary.slice(0,3) };
-    }
-
-    function getUserAnswersText() {
-        let text = "";
-        QUESTIONS.forEach((q, idx) => {
-            let chosen = answersPoints[idx];
-            if (chosen) {
-                let chosenText = q.options.find(opt => JSON.stringify(opt.points) === JSON.stringify(chosen))?.text || "إجابة";
-                text += `${idx+1}. ${q.text} → ${chosenText}\n`;
-            }
-        });
-        return text;
-    }
-
-    function getFullUserData() {
+    function getResultText() {
+        if (!finalTopPrimary) return "";
         const genderText = currentGender === 'female' ? 'أنثى' : 'ذكر';
-        let answersText = getUserAnswersText();
-        let primaryPerfume = lastTopPrimary ? `- ${lastTopPrimary.name}\n   المكونات: ${lastTopPrimary.notes}\n   الوصف: ${lastTopPrimary.description}` : "";
-        let secondaryList = lastTopSecondary.map(p => `- ${p.name}\n   المكونات: ${p.notes}\n   الوصف: ${p.description}`).join('\n\n');
+        let answersText = "";
+        QUESTIONS.forEach((q, idx) => {
+            let chosenFamily = selectedFamilies[idx];
+            let chosenText = q.options.find(opt => opt.family === chosenFamily)?.text || "إجابة";
+            answersText += `${idx+1}. ${q.text} → ${chosenText}\n`;
+        });
+        let primaryInfo = finalTopPrimary ? `- ${finalTopPrimary.name}\n   المكونات: ${finalTopPrimary.notes}\n   الوصف: ${finalTopPrimary.description}` : "";
+        let secondaryInfo = finalTopSecondary.map(p => `- ${p.name}\n   المكونات: ${p.notes}\n   الوصف: ${p.description}`).join('\n\n');
         return `📋 نتيجة اختبار سوير:
 🧬 الجنس: ${genderText}
 📝 الإجابات:
 ${answersText}
 ✨ العطر الأقرب لشخصيتك:
-${primaryPerfume}
-🌸 عطور أخرى تناسب ذوقك (نفس الفصيلة):
-${secondaryList}
+${primaryInfo}
+🌸 عطور أخرى تناسب ذوقك:
+${secondaryInfo}
 🔗 رابط الاختبار: ${window.location.href}
 تم الإرسال من موقع سوير للعطور.`;
     }
 
-    function sendToWhatsApp() {
-        const data = encodeURIComponent(getFullUserData());
-        const adminPhone = "9665XXXXXXXX"; // غيّر الرقم هنا
-        const url = `https://wa.me/${adminPhone}?text=${data}`;
-        window.open(url, '_blank');
-        alert("📲   واطلب منهم الان عطرك المفضل ✅  أرسل الرسالة لتصل بياناتك إلى فريق سوير ");
+    function sendToFacebookMessenger() {
+        const resultText = getResultText();
+        navigator.clipboard.writeText(resultText).then(() => {
+            const pageId = "61563925810810";
+            const messengerUrl = `https://m.me/${pageId}`;
+            window.open(messengerUrl, '_blank');
+            alert("✅ تم نسخ نتيجة الاختبار! سيتم فتح محادثة فيسبوك ماسنجر مع صفحة سوير، قومي بلصق النتيجة (اضغطي مع الاستمرار ثم لصق) وأرسليها.");
+        }).catch(() => {
+            alert("❌ فشل نسخ النتيجة، حاولي يدوياً تحديد النص ونسخه.");
+        });
     }
 
     function showResult() {
-        if (answersPoints.some(a => !a)) {
-            alert("الرجاء اختيار إجابة قبل المتابعة 💫");
+        if (selectedFamilies.includes(undefined)) {
+            alert("الرجاء اختيار إجابة لكل سؤال 💫");
             return;
         }
-        const { tasteName, tasteDescription, topPrimary, topSecondary } = calculateTopPerfumes();
-        lastTopPrimary = topPrimary;
-        lastTopSecondary = topSecondary;
-        
-        let perfumesHtml = `<div class="result-taste">🧪 ذوقك العطري: ${tasteName}<div class="taste-description">${tasteDescription}</div></div>`;
-        
+        let dominantFamily = getDominantFamily();
+        let perfumes = getPerfumesByFamily(dominantFamily);
+        if (perfumes.length === 0) {
+            let allAvailable = (currentGender === 'female' ? femalePerfumes : malePerfumes);
+            perfumes = allAvailable;
+            if (perfumes.length === 0) {
+                alert("⚠️ لا توجد عطور متاحة حالياً. يرجى تحديث قاعدة البيانات.");
+                resetQuiz();
+                return;
+            }
+        }
+        // خلط عشوائي لتنويع النتائج
+        for (let i = perfumes.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [perfumes[i], perfumes[j]] = [perfumes[j], perfumes[i]];
+        }
+        const topPrimary = perfumes[0];
+        const topSecondary = perfumes.slice(1, 4);
+        finalTopPrimary = topPrimary;
+        finalTopSecondary = topSecondary;
+
+        let tasteDesc = "";
+        switch (dominantFamily) {
+            case "Floral": tasteDesc = "🌺 زهري ناعم ورقيق - أنت شخصية رومانسية تحب الطبيعة والهدوء."; break;
+            case "Sweet": tasteDesc = "🍯 دافئ وحلو وجذاب - شخصيتك حنونة ومحبوبة."; break;
+            case "Woody": tasteDesc = "🌲 خشبي فخم وقوي - أنت قائد وغامض."; break;
+            case "Fresh": tasteDesc = "🌊 منعش وحيوي - أنت نشيط وتحب الحرية."; break;
+            case "Fruity": tasteDesc = "🍓 فاكهي مرح ومشرق - حياتك مليئة بالبهجة."; break;
+            default: tasteDesc = "✨ توقيع سوير الخاص - ذوقك فريد.";
+        }
+        let tasteName = `ذوقك ${dominantFamily === "Floral" ? "الزهري" : dominantFamily === "Sweet" ? "الدافئ" : dominantFamily === "Woody" ? "الخشبي القوي" : dominantFamily === "Fresh" ? "المنعش" : "الفاكهي"}`;
+
+        let perfumesHtml = `<div class="result-taste">🧪 ${tasteName}<div class="taste-description">${tasteDesc}</div></div>`;
         perfumesHtml += `<div class="recommendation-tier"><div class="tier-title">✨ أقرب عطر لشخصيتك ✨</div>
             <div class="perfume-item">
-                <img class="perfume-image" src="${topPrimary.image || 'https://via.placeholder.com/60/FFB2DA/5C4545?text=SWYR'}" alt="${topPrimary.name}">
+                <img class="perfume-image" src="${topPrimary.image}" alt="${topPrimary.name}" onerror="this.src='${currentGender === 'female' ? DEFAULT_FEMALE_IMAGE : DEFAULT_MALE_IMAGE}'">
                 <div class="perfume-info">
                     <div class="perfume-name">${topPrimary.name}</div>
-                    <div class="perfume-notes">🧴 المكونات الأساسية: ${topPrimary.notes}</div>
+                    <div class="perfume-notes">🧴 المكونات: ${topPrimary.notes}</div>
                     <div class="perfume-description">📖 الوصف: ${topPrimary.description}</div>
                 </div>
-                <a href="${topPrimary.url}" target="_blank" class="perfume-link">🛍️ تسوق الآن</a>
+                <a href="${getValidUrl(topPrimary)}" target="_blank" class="perfume-link">🛍️ تسوق الآن</a>
             </div></div>`;
-        
         perfumesHtml += `<div class="recommendation-tier"><div class="tier-title">🌸 عطور أخرى تناسب ذوقك (من نفس الفصيلة) 🌸</div><div class="perfume-list">`;
         topSecondary.forEach(p => {
             perfumesHtml += `<div class="perfume-item">
-                                <img class="perfume-image" src="${p.image || 'https://via.placeholder.com/60/FFB2DA/5C4545?text=SWYR'}" alt="${p.name}">
+                                <img class="perfume-image" src="${p.image}" alt="${p.name}" onerror="this.src='${currentGender === 'female' ? DEFAULT_FEMALE_IMAGE : DEFAULT_MALE_IMAGE}'">
                                 <div class="perfume-info">
                                     <div class="perfume-name">${p.name}</div>
                                     <div class="perfume-notes">🧴 المكونات: ${p.notes}</div>
                                     <div class="perfume-description">📖 الوصف: ${p.description}</div>
                                 </div>
-                                <a href="${p.url}" target="_blank" class="perfume-link">🛍️ تسوق الآن</a>
+                                <a href="${getValidUrl(p)}" target="_blank" class="perfume-link">🛍️ تسوق الآن</a>
                             </div>`;
         });
         perfumesHtml += `</div></div>
         <div style="margin-top:20px; text-align:center;">
-            <button id="sendWhatsappBtn" class="single-wa-btn"> وطالب منهم عطرك المفضل 📤 ارسل نتيجة الاختبار إلى سوير  </button>
-            <p style="font-size:12px; margin-top:10px;">* سيتم إرسال اختياراتك ونتيجتك إلى فريق سوير لمساعدتك في اختيار عطرك المثالي.</p>
+            <button id="sendFacebookBtn" class="facebook-share-btn">📩 إرسال النتيجة إلى فيسبوك (للسوير)</button>
+            <p style="font-size:12px; margin-top:10px;">* سيتم نسخ نتيجة الاختبار وفتح محادثة ماسنجر مع صفحة سوير. قومي بلصق النتيجة وإرسالها.</p>
         </div>
         <div style="text-align:center; margin-top:15px;"><button id="restartBtn">🔄 إعادة الاختبار</button></div>`;
-        
+
         resultContainer.innerHTML = perfumesHtml;
         resultContainer.classList.remove('hidden');
         questionsContainer.classList.add('hidden');
         navButtonsDiv.classList.add('hidden');
         genderSection.classList.add('hidden');
-        
-        document.getElementById('sendWhatsappBtn').addEventListener('click', sendToWhatsApp);
+
+        document.getElementById('sendFacebookBtn').addEventListener('click', sendToFacebookMessenger);
         document.getElementById('restartBtn').addEventListener('click', resetQuiz);
     }
 
     function resetQuiz() {
         currentGender = null;
-        answersPoints = [];
+        selectedFamilies = [];
         currentQuestionIndex = 0;
         genderSection.classList.remove('hidden');
         questionsContainer.classList.add('hidden');
@@ -609,7 +621,7 @@ ${secondaryList}
 
     function startQuiz(gender) {
         currentGender = gender;
-        answersPoints = new Array(QUESTIONS.length).fill(null);
+        selectedFamilies = new Array(QUESTIONS.length).fill(undefined);
         genderSection.classList.add('hidden');
         questionsContainer.classList.remove('hidden');
         navButtonsDiv.classList.remove('hidden');
@@ -618,15 +630,13 @@ ${secondaryList}
         updateNavButtons();
     }
 
-    // دالة nextStep المعدلة: تتحقق من وجود إجابة ثم تنتقل
     function nextStep() {
-        if (!answersPoints[currentQuestionIndex]) {
+        if (selectedFamilies[currentQuestionIndex] === undefined) {
             alert("الرجاء اختيار إجابة قبل المتابعة 💫");
             return;
         }
         goToNext();
     }
-    
     function prevStep() {
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
@@ -635,12 +645,8 @@ ${secondaryList}
         }
     }
 
-    // إضافة مستمع لحدث الضغط على Enter من لوحة المفاتيح
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter' && !genderSection.classList.contains('hidden') && questionsContainer.classList.contains('hidden')) {
-            // لو مازال في مرحلة اختيار الجنس، لا شيء
-        } else if (event.key === 'Enter' && !questionsContainer.classList.contains('hidden')) {
-            // إذا كان الأسئلة ظاهرة
+        if (event.key === 'Enter' && !questionsContainer.classList.contains('hidden')) {
             event.preventDefault();
             nextStep();
         }
