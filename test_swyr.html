@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>اختبار سوير للعطور | اكتشف توقيعك العطري</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%235C4545'/%3E%3Ctext x='50' y='70' font-size='50' text-anchor='middle' fill='%23FEE695' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #FEE69520;
+            font-family: 'Tajawal', 'Segoe UI', system-ui, sans-serif;
+            padding: 1rem;
+            min-height: 100vh;
+            color: #5C4545;
+        }
+        .container {
+            max-width: 800px;
+            margin: 1.5rem auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(92,69,69,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #5C4545 0%, #FFB2DA 100%);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            color: #FEE695;
+        }
+        .header h1 {
+            font-size: 2.4rem;
+            letter-spacing: 2px;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+        .header .subtitle, .header .arabic-sub {
+            font-size: 0.85rem;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+        .content {
+            padding: 1.8rem;
+        }
+        .question-card, .result-card, .gender-card {
+            background: #FFFFFF;
+            border-radius: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #FFB2DA80;
+            padding: 1.2rem;
+        }
+        .question-text {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            padding-right: 0.75rem;
+            border-right: 5px solid #FFB2DA;
+            color: #5C4545;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .option {
+            background: #FEFAF5;
+            border-radius: 3rem;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #FEE695;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .option:hover {
+            background: #FFB2DA20;
+            border-color: #FFB2DA;
+            transform: translateX(4px);
+        }
+        .option.selected {
+            background: #FFB2DA40;
+            border-color: #5C4545;
+            font-weight: 600;
+        }
+        .option-letter {
+            font-weight: 800;
+            background: #FEE695;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            color: #5C4545;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 20px 0 10px;
+        }
+        button {
+            background: #5C4545;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #FEE695;
+            font-family: inherit;
+            flex: 1;
+        }
+        button.secondary {
+            background: #FEE695;
+            color: #5C4545;
+        }
+        button:hover {
+            background: #FFB2DA;
+            color: #5C4545;
+            transform: scale(0.97);
+        }
+        .gender-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .gender-btn {
+            background: #FEE695;
+            color: #5C4545;
+            font-weight: 700;
+            padding: 12px 35px;
+            border-radius: 60px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+            border: 1px solid #FFB2DA;
+        }
+        .gender-btn.active {
+            background: #FFB2DA;
+            color: #5C4545;
+            border-color: #5C4545;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .perfume-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .perfume-item {
+            background: #FFF9F2;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-right: 6px solid #FFB2DA;
+        }
+        .perfume-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 1rem;
+            object-fit: cover;
+            background: #FEE695;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .perfume-info {
+            flex: 2;
+            min-width: 150px;
+        }
+        .perfume-name {
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+        .perfume-notes, .perfume-description {
+            font-size: 0.75rem;
+            color: #8a6a5a;
+            line-height: 1.4;
+            margin-top: 4px;
+        }
+        .perfume-description {
+            font-weight: 500;
+            color: #5C4545;
+        }
+        .perfume-link {
+            background: #5C4545;
+            color: #FEE695;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .perfume-link:hover {
+            background: #FFB2DA;
+            color: #5C4545;
+        }
+        .result-taste {
+            background: #FEE695;
+            padding: 0.7rem;
+            border-radius: 3rem;
+            text-align: center;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #5C4545;
+        }
+        .taste-description {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            font-weight: normal;
+            color: #5C4545;
+            background: #FFFFFF80;
+            padding: 0.5rem;
+            border-radius: 1rem;
+        }
+        .recommendation-tier {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            background: #FEFAF5;
+        }
+        .tier-title {
+            font-weight: 800;
+            color: #FFB2DA;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            border-bottom: 1px dashed #FEE695;
+            display: inline-block;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #FFB2DA;
+            padding: 1rem;
+            border-top: 1px solid #FEE695;
+        }
+        .single-wa-btn {
+            width: 100%;
+            background: #25D366;
+            color: white;
+            margin-top: 10px;
+        }
+        .single-wa-btn:hover {
+            background: #128C7E;
+            color: white;
+        }
+        @media (max-width: 550px) {
+            .content { padding: 1.2rem; }
+            .perfume-item { flex-direction: column; align-items: flex-start; }
+            .perfume-link { white-space: normal; text-align: center; width: 100%; }
+            .perfume-image { width: 50px; height: 50px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>SWYR</h1>
+        <div class="subtitle">A BREATH OF PURE LUXURY</div>
+        <div class="arabic-sub">نسخة من الفخامة النقية</div>
+    </div>
+    <div class="content" id="app">
+        <div id="genderSection" class="gender-card">
+            <div class="question-text">أولاً: من أنتِ/أنت؟</div>
+            <div class="gender-buttons">
+                <div class="gender-btn" data-gender="female"> بنت</div>
+                <div class="gender-btn" data-gender="male"> ولد</div>
+            </div>
+        </div>
+        <div id="questionsContainer"></div>
+        <div id="navButtons" class="btn-group hidden">
+            <button id="prevBtn" class="secondary">السابق</button>
+            <button id="nextBtn">التالي</button>
+        </div>
+        <div id="resultContainer" class="result-card hidden"></div>
+    </div>
+    <footer>سوير | عطور مستوحاة - اكتشف توقيعك العطري</footer>
+</div>
+
+<script>
+    // قاعدة بيانات العطور (كما هي)
+    const PERFUMES_CATALOG = [
+        { name: "212 سكسي", url: "https://swyr.almatjar.store/ar/p/212-sksy-50ml-7", family: "Amber", gender: "female", 
+          notes: "مندلين، برغموت، فلفل وردي، جاردينيا، مسك أبيض، فانيليا، خشب الصندل، عنبر",
+          description: "عطر دافئ وحسي يبدأ بنفحات من البرغموت والفلفل الوردي، ثم ينتقل إلى قلب من الورد والفانيليا والمسك الأبيض. يُناسب المساء والأجواء الباردة، مثالي للسهرات أو اللقاءات الرومانسية." },
+        { name: "جود جيرل", url: "https://swyr.almatjar.store/ar/p/god-gyrl-50ml-32", family: "Amber", gender: "female",
+          notes: "لوز، قهوة، ياسمين، تيوبيروز، فانيليا، تونكا، كاكاو، برالين، مسك، عنبر",
+          description: "عطر جريء وأنثوي يجمع بين القهوة المحمصة والياسمين الأبيض، مع قاعدة من الفانيليا والبرالين. يرمز إلى المرأة القوية التي تملك جانبًا مرِحًا وساحرًا." },
+        { name: "لافي بيل", url: "https://swyr.almatjar.store/ar/p/lafy-byl-50ml-13", family: "Sweet", gender: "female",
+          notes: "كشمش أسود، كمثرى، سوسن، ياسمين، برالين، فانيليا، باتشولي، تونكا",
+          description: "عطر ساحر ومبهج يجمع بين الفواكه الحمراء والزهور البيضاء مع لمسة من الفانيليا والبرالين. يعبر عن السعادة والتفاؤل والأنوثة الناعمة." },
+        { name: "كوكوشانيل مدمزيل", url: "https://swyr.almatjar.store/ar/p/kokoshanyl-mdmzyl-50ml-15", family: "Floral", gender: "female",
+          notes: "برغموت، برتقال، ياسمين، ورد، باتشولي، تونكا، فانيليا، مسك أبيض",
+          description: "عطر زهري شرقي أنيق، يجمع بين الحمضيات المنعشة والورد الياسميني مع لمسة ترابية من الباتشولي. يعبر عن الأنثى العصرية المستقلة." },
+        { name: "مس ديور بلومينج", url: "https://swyr.almatjar.store/ar/p/ms-dyor-blomyng-50ml-14", family: "Floral", gender: "female",
+          notes: "برغموت كالابري، ورد دمشقي، بيوني، مسك أبيض",
+          description: "عطر زهري رقيق وناعم، مستوحى من باقة ورد متفتحة. يعطي إحساسًا بالانتعاش والنقاء، مناسب للنهار والأجواء الربيعية." },
+        { name: "عطر سي باشن", url: "https://swyr.almatjar.store/ar/p/aatr-sy-bashn-50ml-4", family: "Fruity", gender: "female",
+          notes: "كشمش أسود، كمثرى، فلفل وردي، ورد، ياسمين، فانيليا، أرز، باتشولي",
+          description: "عطر شغوف وقوي يعكس العاطفة والثقة. يفتتح بفواكه حمراء وكمثرى، ثم قلب زهري، وقاعدة خشبية دافئة." },
+        { name: "ايدول لانكوم", url: "https://swyr.almatjar.store/ar/p/aydol-lankom-50ml-8", family: "Floral", gender: "female",
+          notes: "حمضيات، ورد، ياسمين، مسك أبيض، فانيليا، شيبر أبيض",
+          description: "عطر زهري مشرق ومتفائل، يمثل فرحة الحياة. الورد هو نجم التركيبة مع لمسة من المسك والفانيليا." },
+        { name: "انايس انايس", url: "https://swyr.almatjar.store/ar/p/anays-anays-50ml-34", family: "Floral", gender: "female",
+          notes: "ياسمين، ورد، زنبق أبيض، سوسن، يلانج يلانج، مسك، عنبر، خشب الصندل",
+          description: "عطر كلاسيكي ناعم، يعبق بأريج الزهور البيضاء والمسك. يرمز إلى البراءة والرقة والحب الأول." },
+        { name: "ايفوريا", url: "https://swyr.almatjar.store/ar/p/ayforya-50ml-12", family: "Fruity", gender: "female",
+          notes: "رمان، كاكي، أوركيد أسود، لوتس، أخشاب ماهوجني، بنفسج، عنبر",
+          description: "عطر جريء ومثير يجمع بين الفواكه الاستوائية والزهور الغامضة والأخشاب الداكنة. يعبر عن الشغف والقوة." },
+        { name: "عود شيخة", url: "https://swyr.almatjar.store/ar/p/%D8%B9%D9%88%D8%AF-%D8%B4%D9%8A%D8%AE%D8%A9-50mlaud-shaikhah-mist-100ml-39", family: "Woody", gender: "male",
+          notes: "عود، ورد، زعفران، مسك، عنبر، حيواني معدني",
+          description: "عطر شرقي فخم يعتمد على العود النادر مع لمسات من الورد والزعفران. يمنح حضورًا قويًا وأناقة لا تُقاوم." },
+        { name: "بي ام دبليو", url: "https://swyr.almatjar.store/ar/p/bmw-50ml-35", family: "Fresh", gender: "male",
+          notes: "برغموت، يوسفي، فلفل وردي، لافندر، أمبروكسان، عنبر",
+          description: "عطر منعش ورياضي، مستوحى من قيادة السيارات الفاخرة. مزيج من الحمضيات واللافندر مع لمسة عنبرية." },
+        { name: "بلاك لاكوست", url: "https://swyr.almatjar.store/ar/p/black-Eau-de-Lacoste-Noir-Lacoste-Fragrances-50ml-25", family: "Woody", gender: "male",
+          notes: "بطيخ، ريحان، لافندر، شوكولاتة داكنة، كشمير وود، كومارين، باتشولي",
+          description: "عطر جذاب وعصري يجمع بين الفواكه والباتشولي والشوكولاتة الداكنة. مثالي للمناسبات الليلية." },
+        { name: "فرزاتشي إيروس", url: "https://swyr.almatjar.store/ar/p/Eros-Eau-de-Parfum-Versace-50ml-24", family: "Amber", gender: "male",
+          notes: "ليمون، يوسفي، نعناع، تفاح، جيرانيوم، كلاري سيج، أرز، فانيليا، باتشولي، خشب الصندل",
+          description: "عطر أسطوري مستوحى من إله الحب اليوناني. مزيج منعش وحلو مع لمسة خشبية، يمنح ثقة وجاذبية." },
+        { name: "سوفاج", url: "https://swyr.almatjar.store/ar/p/sauvage-100ml-inspired-30", family: "Fresh", gender: "male",
+          notes: "برغموت كالابري، فلفل سيشوان، لافندر، عنبر، باتشولي، فانيليا",
+          description: "عطر بري وطاغي مستوحى من الطبيعة الجامحة. البرغموت والفلفل يخلقان افتتاحية صارخة، مع قاعدة عنبرية دافئة." },
+        { name: "كلوب دي نوي", url: "https://swyr.almatjar.store/ar/p/club-de-nuit-intense-50ml-26", family: "Woody", gender: "male",
+          notes: "أناناس، برغموت، ليمون، كشمش أسود، تفاح، ورد، ياسمين، مسك، أمبرجريس، باتشولي، فانيليا",
+          description: "عطر ليلي قوي يجمع بين الفواكه الحامضة والزهور والأخشاب. يعطي إحساسًا بالفخامة والثقة." },
+        { name: "قصة امبريال", url: "https://swyr.almatjar.store/ar/p/qissa-imperial-50ml-41", family: "Woody", gender: "unisex",
+          notes: "برغموت إيطالي، دافانا، فلفل وردي، عنبر أبيض، روزماري، عود، جلد، مسك، فيتيڤر",
+          description: "عطر فخم وجريء يجمع بين الحمضيات والعود والجلد. يناسب الشخصيات القيادية التي تحب التميز." },
+        { name: "ليبر", url: "https://swyr.almatjar.store/ar/p/libert-50ml-42", family: "Fresh", gender: "unisex",
+          notes: "لافندر، يوسفي، كشمش أسود، زهر البرتقال، ياسمين، فانيليا مدغشقر، مسك",
+          description: "عطر منعش ومشرق بروح حرة، يجمع بين الخزامى والفواكه والفانيليا. يناسب كل الأوقات." }
+    ];
+
+    // الأسئلة (6 أسئلة)
+    const QUESTIONS = [
+        { text: "🌿 أي من هذه الأجواء أقرب إلى قلبك؟", options: [
+            { text: "منعش وهادئ - مثل نسيم الصباح الباكر", points: { "Fresh": 3, "Citrus": 2 } },
+            { text: "دافئ وحنون - مثل احتضان دافئ في المساء", points: { "Amber": 3, "Sweet": 2 } },
+            { text: "قوي وجذاب - مثل حضور لا يُنسى", points: { "Woody": 3, "Leather": 2 } },
+            { text: "مرح وفاكهي - مثل نزهة مليئة بالضحك", points: { "Fruity": 3, "Floral": 1 } }
+        ] },
+        { text: "🌸 أي فئة من الروائح تلامس روحك أكثر؟", options: [
+            { text: "الأزهار البيضاء النقية (ياسمين، زنبق، نيرولي)", points: { "Floral": 4 } },
+            { text: "الفانيليا والعنبر الدافئين", points: { "Amber": 3, "Sweet": 2 } },
+            { text: "العود والمسك والتبغ العميقين", points: { "Woody": 3, "Oud": 2 } },
+            { text: "الفواكه الحمراء والحمضيات المنعشة", points: { "Fruity": 3, "Citrus": 2 } }
+        ] },
+        { text: "🎭 كيف تصف شخصيتك في كلمتين؟", options: [
+            { text: "هادئ/هادئة، أنيق/أنيقة", points: { "Floral": 2, "Fresh": 1 } },
+            { text: "مرح/مرحة، جريء/جريئة", points: { "Fruity": 2, "Sweet": 2 } },
+            { text: "غامض/غامضة، جذاب/جذابة", points: { "Amber": 2, "Woody": 2 } },
+            { text: "عملي/عملية، رياضي/رياضية", points: { "Fresh": 3, "Citrus": 2 } }
+        ] },
+        { text: "⏰ في أي وقت تشعر بأنك أكثر تألقًا؟", options: [
+            { text: "النهار والصباح الباكر", points: { "Fresh": 3, "Citrus": 2 } },
+            { text: "المساء والمناسبات الخاصة", points: { "Amber": 3, "Sweet": 2 } },
+            { text: "العمل واللقاءات الرسمية", points: { "Woody": 2, "Floral": 1 } },
+            { text: "كل الأوقات دون تفرقة", points: { "Floral": 1, "Fresh": 1, "Amber": 1 } }
+        ] },
+        { text: "💎 ما الذي يحدد اختيارك لعطرك المثالي؟", options: [
+            { text: "الثبات طوال اليوم ورائحة قوية", points: { "Amber": 2, "Woody": 2 } },
+            { text: "الفوحان الجميل والانتشار", points: { "Sweet": 2, "Fruity": 2 } },
+            { text: "الرقة والنعومة والهدوء", points: { "Floral": 3, "Powdery": 2 } },
+            { text: "السعر المناسب مقابل الجودة", points: { "Fresh": 2, "Citrus": 2 } }
+        ] },
+        { text: "🎨 ما هو اللون الذي يعبر عن حالتك المزاجية اليوم؟", options: [
+            { text: "الأبيض والبيج - النقاء والرقة", points: { "Floral": 2, "Powdery": 2 } },
+            { text: "الذهبي والعنبر - الدفء والفخامة", points: { "Amber": 3, "Sweet": 2 } },
+            { text: "الأسود والبني - القوة والغموض", points: { "Woody": 3, "Leather": 2 } },
+            { text: "الزهري والبرتقالي - الحيوية والمرح", points: { "Fruity": 3, "Citrus": 2 } }
+        ] }
+    ];
+
+    let currentGender = null;
+    let answersPoints = [];
+    let currentQuestionIndex = 0;
+    let lastTopPrimary = null;
+    let lastTopSecondary = [];
+
+    const genderSection = document.getElementById('genderSection');
+    const questionsContainer = document.getElementById('questionsContainer');
+    const navButtonsDiv = document.getElementById('navButtons');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const resultContainer = document.getElementById('resultContainer');
+
+    // دالة للانتقال إلى السؤال التالي أو عرض النتيجة
+    function goToNext() {
+        if (currentQuestionIndex + 1 < QUESTIONS.length) {
+            currentQuestionIndex++;
+            renderCurrentQuestion();
+            updateNavButtons();
+        } else {
+            showResult();
+        }
+    }
+
+    function renderCurrentQuestion() {
+        if (!currentGender) return;
+        const q = QUESTIONS[currentQuestionIndex];
+        let html = `<div class="question-card"><div class="question-text">${currentQuestionIndex+1}. ${q.text}</div><div class="options">`;
+        const letters = ['أ', 'ب', 'ج', 'د'];
+        q.options.forEach((opt, idx) => {
+            const isSelected = answersPoints[currentQuestionIndex] === opt.points;
+            html += `<div class="option ${isSelected ? 'selected' : ''}" data-points='${JSON.stringify(opt.points)}'>
+                        <span class="option-letter">${letters[idx]}</span>
+                        <span>${opt.text}</span>
+                    </div>`;
+        });
+        html += `</div></div>`;
+        questionsContainer.innerHTML = html;
+        
+        // إضافة مستمعي الأحداث للخيارات: عند النقر، نحفظ الاختيار ثم ننتقل تلقائيًا للسؤال التالي
+        document.querySelectorAll('.option').forEach(el => {
+            el.addEventListener('click', () => {
+                const pointsObj = JSON.parse(el.getAttribute('data-points'));
+                answersPoints[currentQuestionIndex] = pointsObj;
+                document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                el.classList.add('selected');
+                // الانتقال التلقائي بعد اختيار الإجابة
+                goToNext();
+            });
+        });
+    }
+
+    function updateNavButtons() {
+        if (currentQuestionIndex === QUESTIONS.length - 1) nextBtn.innerText = '✨ اكتشف عطرك ✨';
+        else nextBtn.innerText = 'التالي ';
+    }
+
+    function calculateTopPerfumes() {
+        const scores = { Floral:0, Amber:0, Woody:0, Fresh:0, Fruity:0, Citrus:0, Sweet:0, Leather:0, Green:0, Vanilla:0, Powdery:0, Musk:0, Oriental:0, Spicy:0, Oud:0 };
+        for (let ans of answersPoints) if (ans) for (let [fam, pts] of Object.entries(ans)) scores[fam] = (scores[fam]||0) + pts;
+        
+        let topFamily = Object.keys(scores).reduce((a,b) => scores[a] > scores[b] ? a : b, "Floral");
+        
+        let tasteName = "";
+        let tasteDescription = "";
+        let primaryFamily = "";
+        if (topFamily === "Floral" || topFamily === "White Floral") {
+            tasteName = "🌺 زهري ناعم ورقيق";
+            tasteDescription = "أنت شخصية تميل للرقة والأنوثة/الأناقة، وتحبين/تحب الأجواء الهادئة والطبيعة. العطور الزهرية تمنحك إحساسًا بالصفاء والجمال البسيط.";
+            primaryFamily = "Floral";
+        } else if (topFamily === "Amber" || topFamily === "Vanilla" || topFamily === "Sweet") {
+            tasteName = "🍯 دافئ وحلو وجذاب";
+            tasteDescription = "لديك/لديكِ شخصية دافئة وحنونة، تحبين/تحب الراحة والأجواء الرومانسية. العطور الدافئة والحلوة تعكس دفئك الداخلي وتجعلك محط الأنظار.";
+            primaryFamily = "Amber";
+        } else if (topFamily === "Woody" || topFamily === "Oud" || topFamily === "Leather") {
+            tasteName = "🌲 خشبي فخم وقوي";
+            tasteDescription = "شخصيتك قوية وغامضة، تحبين/تحب التميز والحضور اللافت. العطور الخشبية والعود تمنحك الثقة والهيبة.";
+            primaryFamily = "Woody";
+        } else if (topFamily === "Fresh" || topFamily === "Citrus" || topFamily === "Green") {
+            tasteName = "🌊 منعش رياضي وحيوي";
+            tasteDescription = "أنت شخصية نشيطة ورياضية، تحبين/تحب النشاط والانطلاق. العطور المنعشة تمنحك طاقة إيجابية وانتعاشًا طوال اليوم.";
+            primaryFamily = "Fresh";
+        } else if (topFamily === "Fruity" || topFamily === "Berries") {
+            tasteName = "🍓 فاكهي مرح ومشرق";
+            tasteDescription = "شخصيتك مرحة وجريئة، تحبين/تحب التجديد والأجواء المبهجة. العطور الفاكهية تعكس حيوتك وتضفي لمسة من البهجة.";
+            primaryFamily = "Fruity";
+        } else {
+            tasteName = "✨ توقيع سوير الخاص";
+            tasteDescription = "ذوقك فريد ومتنوع، تحبين/تحب المزج بين أكثر من فئة عطرية. أنت شخصية متجددة ومحبة للاستكشاف.";
+            primaryFamily = "Floral";
+        }
+        
+        let filtered = PERFUMES_CATALOG.filter(p => p.gender === currentGender || p.gender === "unisex");
+        let scored = filtered.map(p => {
+            let score = 0;
+            if (p.family === primaryFamily) score += 5;
+            if (p.family === "Floral" && primaryFamily === "Floral") score += 3;
+            if (p.family === "Amber" && primaryFamily === "Amber") score += 3;
+            if (p.family === "Woody" && primaryFamily === "Woody") score += 3;
+            if (p.family === "Fresh" && primaryFamily === "Fresh") score += 3;
+            if (p.family === "Fruity" && primaryFamily === "Fruity") score += 3;
+            if (scores[p.family]) score += scores[p.family];
+            if (scores[p.family] > 0) score += 1;
+            return { ...p, score };
+        });
+        scored.sort((a,b) => b.score - a.score);
+        const topPerfume = scored[0];
+        let sameFamily = scored.filter(p => p.family === topPerfume.family || (Math.abs(p.score - topPerfume.score) < 3));
+        let secondary = sameFamily.slice(1, 4);
+        if (secondary.length < 3) {
+            let others = scored.filter(p => !secondary.includes(p) && p.name !== topPerfume.name);
+            secondary = [...secondary, ...others.slice(0, 3 - secondary.length)];
+        }
+        return { tasteName, tasteDescription, topPrimary: topPerfume, topSecondary: secondary.slice(0,3) };
+    }
+
+    function getUserAnswersText() {
+        let text = "";
+        QUESTIONS.forEach((q, idx) => {
+            let chosen = answersPoints[idx];
+            if (chosen) {
+                let chosenText = q.options.find(opt => JSON.stringify(opt.points) === JSON.stringify(chosen))?.text || "إجابة";
+                text += `${idx+1}. ${q.text} → ${chosenText}\n`;
+            }
+        });
+        return text;
+    }
+
+    function getFullUserData() {
+        const genderText = currentGender === 'female' ? 'أنثى' : 'ذكر';
+        let answersText = getUserAnswersText();
+        let primaryPerfume = lastTopPrimary ? `- ${lastTopPrimary.name}\n   المكونات: ${lastTopPrimary.notes}\n   الوصف: ${lastTopPrimary.description}` : "";
+        let secondaryList = lastTopSecondary.map(p => `- ${p.name}\n   المكونات: ${p.notes}\n   الوصف: ${p.description}`).join('\n\n');
+        return `📋 نتيجة اختبار سوير:
+🧬 الجنس: ${genderText}
+📝 الإجابات:
+${answersText}
+✨ العطر الأقرب لشخصيتك:
+${primaryPerfume}
+🌸 عطور أخرى تناسب ذوقك (نفس الفصيلة):
+${secondaryList}
+🔗 رابط الاختبار: ${window.location.href}
+تم الإرسال من موقع سوير للعطور.`;
+    }
+
+    function sendToWhatsApp() {
+        const data = encodeURIComponent(getFullUserData());
+        const adminPhone = "9665XXXXXXXX"; // غيّر الرقم هنا
+        const url = `https://wa.me/${adminPhone}?text=${data}`;
+        window.open(url, '_blank');
+        alert("📲 تم فتح واطل منهم الان عطرك المفضل واتساب، أرسل الرسالة لتصل بياناتك إلى فريق سوير ✅");
+    }
+
+    function showResult() {
+        if (answersPoints.some(a => !a)) {
+            alert("الرجاء اختيار إجابة قبل المتابعة 💫");
+            return;
+        }
+        const { tasteName, tasteDescription, topPrimary, topSecondary } = calculateTopPerfumes();
+        lastTopPrimary = topPrimary;
+        lastTopSecondary = topSecondary;
+        
+        let perfumesHtml = `<div class="result-taste">🧪 ذوقك العطري: ${tasteName}<div class="taste-description">${tasteDescription}</div></div>`;
+        
+        perfumesHtml += `<div class="recommendation-tier"><div class="tier-title">✨ أقرب عطر لشخصيتك ✨</div>
+            <div class="perfume-item">
+                <img class="perfume-image" src="${topPrimary.image || 'https://via.placeholder.com/60/FFB2DA/5C4545?text=SWYR'}" alt="${topPrimary.name}">
+                <div class="perfume-info">
+                    <div class="perfume-name">${topPrimary.name}</div>
+                    <div class="perfume-notes">🧴 المكونات الأساسية: ${topPrimary.notes}</div>
+                    <div class="perfume-description">📖 الوصف: ${topPrimary.description}</div>
+                </div>
+                <a href="${topPrimary.url}" target="_blank" class="perfume-link">🛍️ تسوق الآن</a>
+            </div></div>`;
+        
+        perfumesHtml += `<div class="recommendation-tier"><div class="tier-title">🌸 عطور أخرى تناسب ذوقك (من نفس الفصيلة) 🌸</div><div class="perfume-list">`;
+        topSecondary.forEach(p => {
+            perfumesHtml += `<div class="perfume-item">
+                                <img class="perfume-image" src="${p.image || 'https://via.placeholder.com/60/FFB2DA/5C4545?text=SWYR'}" alt="${p.name}">
+                                <div class="perfume-info">
+                                    <div class="perfume-name">${p.name}</div>
+                                    <div class="perfume-notes">🧴 المكونات: ${p.notes}</div>
+                                    <div class="perfume-description">📖 الوصف: ${p.description}</div>
+                                </div>
+                                <a href="${p.url}" target="_blank" class="perfume-link">🛍️ تسوق الآن</a>
+                            </div>`;
+        });
+        perfumesHtml += `</div></div>
+        <div style="margin-top:20px; text-align:center;">
+            <button id="sendWhatsappBtn" class="single-wa-btn"> وطالب منهم عطرك المفضل 📤 ارسل نتيجة الاختبار إلى سوير  </button>
+            <p style="font-size:12px; margin-top:10px;">* سيتم إرسال اختياراتك ونتيجتك إلى فريق سوير لمساعدتك في اختيار عطرك المثالي.</p>
+        </div>
+        <div style="text-align:center; margin-top:15px;"><button id="restartBtn">🔄 إعادة الاختبار</button></div>`;
+        
+        resultContainer.innerHTML = perfumesHtml;
+        resultContainer.classList.remove('hidden');
+        questionsContainer.classList.add('hidden');
+        navButtonsDiv.classList.add('hidden');
+        genderSection.classList.add('hidden');
+        
+        document.getElementById('sendWhatsappBtn').addEventListener('click', sendToWhatsApp);
+        document.getElementById('restartBtn').addEventListener('click', resetQuiz);
+    }
+
+    function resetQuiz() {
+        currentGender = null;
+        answersPoints = [];
+        currentQuestionIndex = 0;
+        genderSection.classList.remove('hidden');
+        questionsContainer.classList.add('hidden');
+        navButtonsDiv.classList.add('hidden');
+        resultContainer.classList.add('hidden');
+        document.querySelectorAll('.gender-btn').forEach(btn => btn.classList.remove('active'));
+    }
+
+    function startQuiz(gender) {
+        currentGender = gender;
+        answersPoints = new Array(QUESTIONS.length).fill(null);
+        genderSection.classList.add('hidden');
+        questionsContainer.classList.remove('hidden');
+        navButtonsDiv.classList.remove('hidden');
+        currentQuestionIndex = 0;
+        renderCurrentQuestion();
+        updateNavButtons();
+    }
+
+    // دالة nextStep المعدلة: تتحقق من وجود إجابة ثم تنتقل
+    function nextStep() {
+        if (!answersPoints[currentQuestionIndex]) {
+            alert("الرجاء اختيار إجابة قبل المتابعة 💫");
+            return;
+        }
+        goToNext();
+    }
+    
+    function prevStep() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            renderCurrentQuestion();
+            updateNavButtons();
+        }
+    }
+
+    // إضافة مستمع لحدث الضغط على Enter من لوحة المفاتيح
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && !genderSection.classList.contains('hidden') && questionsContainer.classList.contains('hidden')) {
+            // لو مازال في مرحلة اختيار الجنس، لا شيء
+        } else if (event.key === 'Enter' && !questionsContainer.classList.contains('hidden')) {
+            // إذا كان الأسئلة ظاهرة
+            event.preventDefault();
+            nextStep();
+        }
+    });
+
+    document.querySelectorAll('.gender-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const gender = btn.getAttribute('data-gender');
+            document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            startQuiz(gender);
+        });
+    });
+    prevBtn.addEventListener('click', prevStep);
+    nextBtn.addEventListener('click', nextStep);
+
+    questionsContainer.classList.add('hidden');
+    navButtonsDiv.classList.add('hidden');
+    resultContainer.classList.add('hidden');
+</script>
+</body>
+</html>
